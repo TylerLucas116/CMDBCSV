@@ -1,0 +1,3 @@
+API call for service tag FJMPMH2
+
+https://api.dell.com/support/assetinfo/v4/getassetwarranty/FJMPMH2?apikey=c2ee8cba-a349-401b-9bed-0ed96aa8582a

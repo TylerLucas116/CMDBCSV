@@ -1,0 +1,16 @@
+Computer Name,Top Console User,Operating System,Serial Number,Manufacturer,Model,Memory (KBytes),Processor (GHz),Total Disk Space (MB),Free Disk Space (MB)
+JASON-5480,Unknown,Microsoft Windows 10 Enterprise,BBDYNH2,Dell Inc.,Latitude 5480,8267560,2800,242648,180369
+JASON-9020,Unknown,Microsoft Windows 10 Enterprise,129QJ02,Dell Inc.,OptiPlex 9020,33495264,3200,2150124,1555003
+JASON-990,Unknown,Microsoft Windows 7 Enterprise,HYCSKS1,Dell Inc.,OptiPlex 990,8344588,3400,1907376,1831607
+JASON-CM12-764,Unknown,Microsoft Windows 7 Enterprise,2614-3560-9354-7371-8300-6436-98,Microsoft Corporation,Virtual Machine,8023608,3200,261791,196576
+JASON-CM1702-10,Unknown,Microsoft Windows 10 Enterprise,8447-9197-7492-3284-7103-4801-23,Microsoft Corporation,Virtual Machine,4193844,3200,129695,94687
+JASON-E6420,Unknown,Microsoft Windows 10 Enterprise,5NTP3R1,Dell Inc.,Latitude E6420,6169632,2500,238122,199128
+NEAL-5290,uanet\neal,Microsoft Windows 10 Enterprise,BXR2VN2,Dell Inc.,Latitude 5290 2-in-1,16650536,1900,486554,286541
+PBH8-7040-3,uanet\pbh8,Microsoft Windows 10 Enterprise,F3Z5YJ2,Dell Inc.,OptiPlex 7040,8269796,3400,242390,132836
+THOMAS1-9020,Unknown,Microsoft Windows 10 Enterprise,BWX8Q22,Dell Inc.,OptiPlex 9020,16715372,3300,3317086,2441192
+THOMAS1-E5470,Unknown,Microsoft Windows 10 Enterprise,47LJQF2,Dell Inc.,Latitude E5470,16666168,2700,486920,358889
+THOMAS1-E6430VM,Unknown,Microsoft Windows 10 Enterprise,9748-5688-6486-2524-4842-6832-42,Microsoft Corporation,Virtual Machine,1614716,2600,40029,10137
+THOMAS1-SP3,uanet\thomas1,Microsoft Windows 10 Enterprise,035533244953,Microsoft Corporation,Surface Pro 3,8291392,1900,242757,213218
+WFRENCH-9020,Unknown,Microsoft Windows 10 Enterprise,5LC9L02,Dell Inc.,OptiPlex 9020,25103708,3200,1190415,1028104
+WFRENCH-E5470,uanet\wfrench,Microsoft Windows 10 Enterprise,57THBG2,Dell Inc.,Latitude E5470,8277848,2600,241936,159774
+YOST-7040,uanet\nly8,Microsoft Windows 10 Enterprise,5FFLKH2,Dell Inc.,OptiPlex 7040,8269864,3400,476010,355032
