@@ -7,6 +7,7 @@ from DateFormat import date_format
 
 #import api key
 from APIKey import api_key
+
 #functions for requests
 def get_json_data(url):
     #get response - for possible future error handling
@@ -19,7 +20,6 @@ def get_json_data(url):
 
     json_data = json.loads(data)
     return json_data
-
 
 #functions for getting computer information
 def get_expiration_date(computer, json_data):
@@ -47,10 +47,22 @@ def get_accidental_damage(computer, json_data):
     else:
         computer.accidental_damage = "FALSE"
 
+def get_ship_date(computer, json_data):
+    ship_date = json_data['AssetWarrantyResponse'][0]['AssetHeaderData']['ShipDate']
+    computer.ship_date = date_format(ship_date)
+    print(computer.ship_date)
+
+def get_model(computer, json_data):
+    computer.model = json_data['AssetWarrantyResponse'][0]['AssetHeaderData']['MachineDescription']
+    print(computer.model)
+
 #class for each computer
 class Computer:
     exp_date = ""
     accidental_damage = ""
+    ship_date = ""
+    model = ""
+    uanet_id = ""
 
 #open SCCMReport to be read
 with open('SCCMReport.csv', 'r') as sccm_csv:
@@ -64,7 +76,7 @@ with open('SCCMReport.csv', 'r') as sccm_csv:
     dell_web_address = "https://api.dell.com/support/assetinfo/v4/getassetwarranty/"
 
     #open new file to write to for footprints import
-    with open('CMDB.csv', 'w') as cmdb:
+    with open('CMDB.csv', 'w', newline='') as cmdb:
         cmdb_writer = csv.writer(cmdb)
 
         #header for cmdb writing
@@ -74,35 +86,56 @@ with open('SCCMReport.csv', 'r') as sccm_csv:
         #empty row for future cmdb writing
         row = [''] * 31
             
-        #for each computer in csv file - get warranty exp date and accidental damage
+        #for each computer in csv file - get necessary information
         for line in sccm_reader:
+            if (line[4] == "Dell Inc."):
+                #get url
+                serial_number = line[3]
+                url = dell_web_address + serial_number + api_key
 
-            #get url
-            serial_number = line[3]
-            url = dell_web_address + serial_number + api_key
+                #get json data
+                json_data = get_json_data(url)
+                #print(json.dumps(json_data, indent=2))
 
-            #get json data
-            json_data = get_json_data(url)
+                #check for invalid format (Bad Serial Number/ BIL Assets / Excess Tags)
+                invalid_format = json_data['InvalidFormatAssets']['BadAssets']
+                invalid_BIL_assets = json_data['InvalidBILAssets']['BadAssets']
+                excess_tags = json_data['ExcessTags']['BadAssets']
 
-            #check for invalid format (Bad Serial Number/ BIL Assets / Excess Tags)
-            invalid_format = json_data['InvalidFormatAssets']['BadAssets']
-            invalid_BIL_assets = json_data['InvalidBILAssets']['BadAssets']
-            excess_tags = json_data['ExcessTags']['BadAssets']
+                #get warranty expiration date, acc dmg, ship date, and model for valid warranty,
+                if not invalid_format and not invalid_BIL_assets and not excess_tags:
+                    get_expiration_date(computer, json_data)
+                    get_accidental_damage(computer, json_data)
+                    get_ship_date(computer, json_data)
+                    get_model(computer, json_data)
+                else:
+                    computer.exp_date = ""
+                    computer.accidental_damage = ""
+                    computer.ship_date = ""
+                    computer.model = ""
 
-            #get warranty expiration date for valid warranty
-            if not invalid_format and not invalid_BIL_assets and not excess_tags:
-                get_expiration_date(computer, json_data)
-            else:
-                computer.exp_date = "" 
+                #write new row to cmdb.csv
+                #operating system
+                row[20] = line[2]
 
-            #check for accidental damage
-            if not invalid_format and not invalid_BIL_assets and not excess_tags:
-                get_accidental_damage(computer, json_data)
-            else:
-                computer.accidental_damage = ""
+                #uanet id
+                if(line[1] != "Unknown"):
+                    split_id = line[1].split("\\")
+                    row[22] = split_id[1]
 
-            #write new row to cmdb.csv
-            row[26] = computer.exp_date
-            row[30] = computer.accidental_damage
-            row[18] = serial_number
-            cmdb_writer.writerow(row)         
+                #deployed
+                row[1] = "Deployed"
+
+                #computer name
+                row[23] = line[0]
+
+                row[27] = computer.ship_date
+                row[26] = computer.exp_date
+                row[30] = computer.accidental_damage
+                row[18] = serial_number
+                cmdb_writer.writerow(row)
+
+            #write new row as a string
+            #
+            #rowString = ''.join(row)
+            #cmdb.write(rowString + '\n')
