@@ -1,3 +1,4 @@
+An API key is required, however this has been omitted for sercurity
 Download/install python
 	- https://www.python.org/downloads/release/python-380/
 		- choose "Windows x86-64 executable installer"
